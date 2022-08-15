@@ -34,15 +34,15 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // Root Endpoint
   // Displays a simple message to the user
 
-  app.get("/filteredImage", async ( req, res ) => {
+  app.get("/filteredImage", async function(req:express.Request, res:express.Response) {
     const imageUrl = req.query.image_url;
     if (!imageUrl) {
       res.status(404).send("The Image url is incorrect, Please provide a valid url");
       return;
     }
     const img = await filterImageFromURL(imageUrl)
-    res.sendFile(img);
-    res.on("finish", function () {
+    res.sendFile( img);
+    res.status(200).on("finish", function () {
       deleteLocalFiles([img])
     })
   })
